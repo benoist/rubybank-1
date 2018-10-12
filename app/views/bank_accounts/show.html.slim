@@ -1,2 +1,6 @@
-h1 BankAccounts#show
-p Find me in app/views/bank_accounts/show.html.slim
+h1 Account Overview:
+strong
+  h3 Name: #{current_user.name}
+  h3 E-mail: #{current_user.email}
+  h3 Account number: #{current_user.bank_account.number}
+  h3 Current balance: #{current_user.bank_account.balance.to_s}

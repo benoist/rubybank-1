@@ -48,3 +48,15 @@ html lang="en"
 
       footer
         p &copy; Company 2018
+
+        / doctype html
+        / html
+        /   head
+        /     title
+        /       | RubyBank
+        /     = csrf_meta_tags
+        /     = csp_meta_tag
+        /     = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload'
+        /     = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
+        /   body
+        /     = yield

@@ -56,3 +56,6 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'devise'
 gem 'slim-rails'
 gem 'twitter-bootstrap-rails'
+gem 'devise-bootstrap-views', '~> 1.0'
+gem 'pry-rails', :group => :development
+gem 'awesome_print'

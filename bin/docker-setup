@@ -38,15 +38,15 @@ chdir APP_ROOT do
               sleep 1 && \
               echo "ℹ️  Removing one-off containers..."
               sleep 3
-              docker rm ruby-bank_web_run_1 && \
+              docker rm rubybank_web_run_1 && \
               sleep 2 && \
-              docker rm ruby-bank_web_run_2 && \
+              docker rm rubybank_web_run_2 && \
               sleep 3
-              docker rm ruby-bank_web_run_3 && \
+              docker rm rubybank_web_run_3 && \
               sleep 3
-              docker rm ruby-bank_web_run_4 && \
+              docker rm rubybank_web_run_4 && \
               sleep 3
-              docker rm ruby-bank_db_run_1 && \
+              docker rm rubybank_db_run_1 && \
               sleep 3
               echo "ℹ️  Booting now..."
               sleep 4

@@ -5,10 +5,10 @@ services:
   db:
     image: postgres:alpine
     volumes:
-      - "~/web/ruby-bank/data/:/var/lib/postgresql/data"
+      - "~/web/rubybank/data/:/var/lib/postgresql/data"
     # We're mounting this folder so we can backup/restore database dumps from our app folder.
   web:
-    image: kaygeee/ruby-bank:latest
+    image: kaygeee/rubybank:latest
     command:   ["puma", "-e", "production"]
     ports:
       # HOST:CONTAINER

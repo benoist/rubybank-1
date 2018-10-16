@@ -1,6 +1,7 @@
 class Record < ApplicationRecord
   belongs_to :bank_account
   belongs_to :counterpart, class_name: 'BankAccount'
+  validates :amount, numericality: { greater_than_or_equal_to: 0 }
   before_save :default_note, on: :create
   before_save :decorate_amount, on: :create
 

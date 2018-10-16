@@ -1,0 +1,9 @@
+.git*
+README.md
+Screen*
+.dockerignore
+.byebug_history
+log/*
+tmp/*
+.env
+config/master.key

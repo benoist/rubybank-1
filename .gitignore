@@ -22,6 +22,7 @@
 
 /public/assets
 .byebug_history
-
+# Ignore holds copy of the master key for docker
+#.env
 # Ignore master key for decrypting credentials and more.
-/config/master.key
+#/config/master.key

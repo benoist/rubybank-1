@@ -14,7 +14,7 @@ users.each_with_index do |user, i|
               )
   BankAccount.create!(
                       user_id: i+1,
-                      number: "ROR5BNK000#{i}",
+                      number: "ROR5BNK000#{i+1}",
                       balance: '2000'
                      )
 end

@@ -24,7 +24,7 @@ chdir APP_ROOT do
   sleep 1
   puts "== setting database environment to development =="
   puts "== running db:drop db:create db:migrate =="
-  system 'RAILS_ENV=development bundle exec rails db:drop db:create db:migrate'
+  system 'RAILS_ENV=development bundle exec rails db:drop db:create db:migrate db:seed'  
   sleep 1
   puts '==== Running tests ===='
   system 'bundle exec rspec spec -fd'

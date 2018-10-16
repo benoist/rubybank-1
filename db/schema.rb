@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_11_235207) do
+ActiveRecord::Schema.define(version: 2018_10_14_074943) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -18,10 +18,23 @@ ActiveRecord::Schema.define(version: 2018_10_11_235207) do
   create_table "bank_accounts", force: :cascade do |t|
     t.bigint "user_id"
     t.string "number"
-    t.decimal "balance"
+    t.decimal "balance", precision: 10, scale: 2, default: "0.0"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_bank_accounts_on_user_id"
+  end
+
+  create_table "records", force: :cascade do |t|
+    t.decimal "amount"
+    t.string "status"
+    t.string "reference"
+    t.string "note"
+    t.bigint "counterpart_id"
+    t.bigint "bank_account_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["bank_account_id"], name: "index_records_on_bank_account_id"
+    t.index ["counterpart_id"], name: "index_records_on_counterpart_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -31,7 +44,6 @@ ActiveRecord::Schema.define(version: 2018_10_11_235207) do
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
     t.string "name"
-    t.string "bank_account"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_users_on_email", unique: true
@@ -39,4 +51,5 @@ ActiveRecord::Schema.define(version: 2018_10_11_235207) do
   end
 
   add_foreign_key "bank_accounts", "users"
+  add_foreign_key "records", "bank_accounts"
 end

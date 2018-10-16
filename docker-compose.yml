@@ -1,0 +1,24 @@
+# docker-compose.yml
+
+version: '3'
+services:
+  db:
+    image: postgres:alpine
+    volumes:
+      - "~/web/ruby-bank/data/:/var/lib/postgresql/data"
+    # We're mounting this folder so we can backup/restore database dumps from our app folder.
+  web:
+    image: kaygeee/ruby-bank:latest
+    command:   ["puma", "-e", "production"]
+    ports:
+      # HOST:CONTAINER
+      - "5000:5000"
+    environment:
+      - RAILS_MASTER_KEY=$RAILS_MASTER_KEY
+      - RAILS_ENV=production
+      - POSTGRES_USER=$POSTGRES_USER
+      - POSTGRES_PASSWORD=$POSTGRES_PASSWORD
+      - DOCKENV=true
+      - DATABASE_URL=$DATABASE_URL
+    depends_on:
+      - db

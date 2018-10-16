@@ -4,7 +4,7 @@ strong
   h5 E-mail: #{current_user.email}
   - if @account
     h5 Account number: #{@account.number}
-    h4 Current balance: #{@account.balance.to_f}
+    h4 Current balance: #{format '%.2f', @account.balance.round(2)}
   - model_class = Record
   .page-header
     h4=t '.title', :default => model_class.model_name.human.pluralize.titleize
@@ -14,6 +14,7 @@ strong
         th= model_class.human_attribute_name(:id)
         th= model_class.human_attribute_name(:amount)
         th= model_class.human_attribute_name(:status)
+        th= 'Name'
         th= model_class.human_attribute_name(:reference)
         th= model_class.human_attribute_name(:note)
         th= model_class.human_attribute_name(:bank_account_id)
@@ -24,8 +25,9 @@ strong
         - @records.each do |record|
           tr
             td= record.id
-            td= record.amount
+            td= amount_formater(record.amount)
             td= record.status
+            td= record.counterpart.user.name
             td= record.reference
             td= record.note
             td= record.bank_account.number

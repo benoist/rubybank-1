@@ -1,4 +1,4 @@
 h1 New transfer
-h3 Current balance: #{current_user&.bank_account&.balance.to_f}
+h3 Current balance: #{format '%.2f', current_user&.bank_account&.balance.round(2)}
 
 == render 'form'

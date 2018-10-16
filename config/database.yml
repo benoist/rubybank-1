@@ -81,5 +81,4 @@ test:
 production:
   <<: *default
   database: ruby-bank_production
-  username: ruby-bank
-  password: <%= ENV['RUBY-BANK_DATABASE_PASSWORD'] %>
+  url: <%= ENV['DATABASE_URL'] %>

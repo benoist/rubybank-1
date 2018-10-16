@@ -1,0 +1,58 @@
+#!/usr/bin/env ruby
+require 'fileutils'
+include FileUtils
+
+# path to your application root.
+APP_ROOT = File.expand_path('..', __dir__)
+
+def system!(*args)
+  system(*args) || abort("\n==== Command #{args} failed ====")
+end
+
+chdir APP_ROOT do
+  # This script is a starting point to setup your application.
+
+  puts '==== Docker setup ===='
+  #This works if docker and docker-compose are installed:
+  system 'if [[ $(which docker) && $(docker --version) ]] && [[ $(which docker-compose) && $(docker-compose --version) ]]; then
+           echo "docker and docker-compose available!"
+          fi'
+
+  system 'if [[ $(which docker) && $(docker --version) ]] && [[ $(which docker-compose) && $(docker-compose --version) ]]; then
+              echo "docker and docker-compose available!"
+              # commands
+              docker-compose up --no-start
+              sleep 5
+              docker-compose run web sleep 1 && \
+              docker-compose run db sleep 1 && \
+              echo "ℹ️  Running bundle intall..." && \
+              docker-compose run web bundle install --jobs 8 && \
+              sleep 3 && \
+              echo "ℹ️  Waiting for postgres to boot..." && \
+              sleep 3 && \
+              echo "ℹ️  rake db:create db:migrate..." && \
+              docker-compose run web bundle exec rake db:create db:migrate && \
+              sleep 2
+              docker-compose run web bundle exec rake db:seed && \
+              echo "ℹ️  Ignore the errors! if any!" && \
+              sleep 1 && \
+              echo "ℹ️  Removing one-off containers..."
+              sleep 3
+              docker rm ruby-bank_web_run_1 && \
+              sleep 2 && \
+              docker rm ruby-bank_web_run_2 && \
+              sleep 3
+              docker rm ruby-bank_web_run_3 && \
+              sleep 3
+              docker rm ruby-bank_web_run_4 && \
+              sleep 3
+              docker rm ruby-bank_db_run_1 && \
+              sleep 3
+              echo "ℹ️  Booting now..."
+              sleep 4
+              docker-compose up
+            else
+              echo "Too bad no docker!"
+              # command
+           fi'
+end

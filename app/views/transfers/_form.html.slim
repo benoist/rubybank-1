@@ -1,0 +1,18 @@
+= form_tag('/transfers', method: :post) do
+  div
+    = hidden_field_tag :sender, current_user.id
+    = label_tag :recipient
+    .form_group
+      = select_tag 'recipient', options_from_collection_for_select(@users, "id", "name"), prompt: "Select a user"
+    br  
+    = label_tag :amount
+    .form_group
+      = number_field_tag 'amount', nil, min: 0.01, placeholder: '0.00', step: 0.01
+    br
+    = label_tag :note
+    .form_group
+      = text_field_tag 'note', nil, placeholder: 'Enter a note here...'
+    br 
+    = submit_tag 'Transfer now!', class: 'btn btn-primary'
+    br 
+    = button_tag 'Reset', type: 'reset', class: 'btn btn-default'

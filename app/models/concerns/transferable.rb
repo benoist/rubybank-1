@@ -12,8 +12,10 @@ module Transferable
    end
 
    private def adjust_balance_and_save!(bank_account, amount)
-     bank_account.balance += amount
-     bank_account.save!
+     bank_account.with_lock do
+       bank_account.balance += amount
+       bank_account.save!
+     end
    rescue NoMethodError => e
      raise StandardError, "Balance must at least be positive: #{e}"
    end

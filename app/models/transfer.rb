@@ -6,16 +6,16 @@ class Transfer
 
   attr_reader :sender, :recipient, :amount, :note, :ref
 
-  def initialize(params = {})
-    @sender ||= User.find(params[:sender].to_i)
-    @recipient ||= User.find(params[:recipient].to_i)
-    @amount ||= BigDecimal(params[:amount])
+  def initialize(sender, params = {})
+    @sender = sender
+    @recipient = User.find(params[:recipient].to_i)
+    @amount = BigDecimal(params[:amount])
     @note ||= params[:note] if params[:note] != ''
     @ref = SecureRandom.hex(7)
   end
 
-  def self.transfer(params = {})
-    new(params).send(:transfer)
+  def self.transfer(sender, params = {})
+    new(sender, params).send(:transfer)
   end
 
   private

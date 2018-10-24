@@ -25,6 +25,10 @@ class Transfer
     return false unless amount_valid?(amount)
     begin
       BankAccount.transaction do
+        # lock both accounts...
+        sender.bank_account.lock!
+        recipient.bank_account.lock!
+        # preform operation
         withdraw!(sender, amount)
         create_record!(status: :transfered, user: sender, counterpart: recipient,
                        amount: amount, ref: ref, note: note)
@@ -38,5 +42,5 @@ class Transfer
       warn '❌ Transaction and objects state reverted!'
       raise
     end
-  end
+ end
 end

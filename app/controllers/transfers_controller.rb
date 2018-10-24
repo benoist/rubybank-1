@@ -4,7 +4,7 @@ class TransfersController < ApplicationController
   end
 
   def create
-    @transfer = Transfer.transfer(transfer_params)
+    @transfer = Transfer.transfer(current_user, transfer_params)
 
     respond_to do |format|
       if @transfer.save
@@ -27,6 +27,6 @@ class TransfersController < ApplicationController
   private
 
   def transfer_params
-    params.permit(:sender, :recipient, :amount, :note)
+    params.permit(:recipient, :amount, :note)
   end
 end

@@ -6,16 +6,16 @@ class Transfer
 
   attr_reader :sender, :recipient, :amount, :note, :ref
 
-  def initialize(params = {})
-    @sender ||= User.find(params[:sender].to_i)
-    @recipient ||= User.find(params[:recipient].to_i)
-    @amount ||= BigDecimal(params[:amount])
+  def initialize(sender, params = {})
+    @sender = sender
+    @recipient = User.find(params[:recipient].to_i)
+    @amount = BigDecimal(params[:amount])
     @note ||= params[:note] if params[:note] != ''
     @ref = SecureRandom.hex(7)
   end
 
-  def self.transfer(params = {})
-    new(params).send(:transfer)
+  def self.transfer(sender, params = {})
+    new(sender, params).send(:transfer)
   end
 
   private
@@ -25,6 +25,10 @@ class Transfer
     return false unless amount_valid?(amount)
     begin
       BankAccount.transaction do
+        # lock both accounts...
+        sender.bank_account.lock!
+        recipient.bank_account.lock!
+        # preform operation
         withdraw!(sender, amount)
         create_record!(status: :transfered, user: sender, counterpart: recipient,
                        amount: amount, ref: ref, note: note)
@@ -38,5 +42,5 @@ class Transfer
       warn '❌ Transaction and objects state reverted!'
       raise
     end
-  end
+ end
 end
